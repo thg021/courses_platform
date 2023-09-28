@@ -1,11 +1,24 @@
 import React, { ReactNode } from 'react'
+import Sidebar from './_components/sidebar'
+import Navbar from './_components/navbar'
 
-interface LayoutDashboardProps {
+interface DashboardLayoutProps {
     children: ReactNode
 }
 
-export default function LayoutDashboard({ children }: LayoutDashboardProps) {
+export default function DashboardLayout({ children }: DashboardLayoutProps) {
     return (
-        <div>{children}</div>
+        <div className='h-full'>
+            <div className="h-[80px] md:pl-56 fixed inset-y-0 w-full z-50">
+                <Navbar />
+            </div>
+            <div className='hidden md:flex h-full w-56 flex-col fixed inset-y-0 z-50'>
+                <Sidebar />
+            </div>
+            <main className='md:pl-56 h-full'>
+                {children}
+            </main>
+        </div>
+
     )
 }
