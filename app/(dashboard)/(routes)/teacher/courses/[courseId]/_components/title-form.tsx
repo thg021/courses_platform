@@ -46,7 +46,7 @@ export function TitleForm({ initialData, courseId }: TitleForm) {
     async function handleEditTitleCourse(params: TitleFormData) {
         try {
             console.log(params)
-            await axios.patch(`/api/course/${courseId}`, params)
+            await axios.patch(`/api/courses/${courseId}`, params)
             toast.success('Title updated')
             toggleEdit()
             router.refresh()

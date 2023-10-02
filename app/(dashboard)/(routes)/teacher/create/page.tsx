@@ -32,7 +32,7 @@ export default function CreatePage() {
 
     async function handleCreateCourse(params: CreateCourseFormData) {
         try {
-            const response = await axios.post("/api/course", params)
+            const response = await axios.post("/api/courses", params)
             router.push(`/teacher/courses/${response.data.id}`)
             toast.success('Course created successfully!')
         } catch (error) {

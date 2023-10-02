@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 
 import { Form, FormMessage, FormControl, FormField, FormItem } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import toast from 'react-hot-toast'
 import { Pencil, X } from 'lucide-react'
@@ -50,7 +49,7 @@ export function DescriptionForm({ initialData, courseId }: DescriptionForm) {
     async function handleEditDescriptionCourse(params: DescriptionFormData) {
         try {
             console.log(params)
-            await axios.patch(`/api/course/${courseId}`, params)
+            await axios.patch(`/api/courses/${courseId}`, params)
             toast.success('Description updated')
             toggleEdit()
             router.refresh()
