@@ -4,6 +4,7 @@ import { auth } from '@clerk/nextjs'
 import { LayoutDashboard } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { TitleForm } from './_components/title-form'
+import { DescriptionForm } from './_components/description-form'
 
 interface CourseIdPros {
     params: {
@@ -31,13 +32,11 @@ export default async function CourseIdPage({ params: { courseId } }: CourseIdPro
         price,
         categoryId
     ]
-    console.log(course)
 
     const totalFields = requiredFields.length
     const completedFields = requiredFields.filter(Boolean).length
 
     const completionText = `(${completedFields}/${totalFields})`
-    console.log(completionText)
     return (
         <div>
             <div className="flex flex-center justify-between">
@@ -57,6 +56,14 @@ export default async function CourseIdPage({ params: { courseId } }: CourseIdPro
                         <h2 className="text-xl">Customize your course</h2>
                     </div>
                     <TitleForm initialData={course} courseId={course.id} />
+                    <DescriptionForm initialData={course} courseId={course.id} />
+                </div>
+                <div>
+                    <div className="flex items-center gap-x-2">
+                        <IconBadge icon={LayoutDashboard} />
+                        <h2 className="text-xl">Customize your course</h2>
+                    </div>
+
                 </div>
             </div>
         </div >

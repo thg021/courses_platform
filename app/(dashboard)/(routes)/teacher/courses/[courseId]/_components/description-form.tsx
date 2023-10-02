@@ -11,30 +11,34 @@ import { Button } from '@/components/ui/button'
 import toast from 'react-hot-toast'
 import { Pencil, X } from 'lucide-react'
 import { useState } from 'react'
+import { cn } from '@/lib/utils'
+import { Textarea } from '@/components/ui/textarea'
 
-interface TitleForm {
+interface DescriptionForm {
     initialData: {
-        title: string
+        description: string | null
     }
     courseId: string
 }
 
-const TitleFormSchema = z.object({
-    title: z.string().min(1, {
-        message: 'Title is required'
+const DescriptionFormSchema = z.object({
+    description: z.string().min(1, {
+        message: 'Description is required'
     })
 })
 
-type TitleFormData = z.infer<typeof TitleFormSchema>
+type DescriptionFormData = z.infer<typeof DescriptionFormSchema>
 
 
-export function TitleForm({ initialData, courseId }: TitleForm) {
+export function DescriptionForm({ initialData, courseId }: DescriptionForm) {
     const [isEditing, setIsEditing] = useState(false)
 
     const router = useRouter()
-    const form = useForm<TitleFormData>({
-        resolver: zodResolver(TitleFormSchema),
-        defaultValues: initialData
+    const form = useForm<DescriptionFormData>({
+        resolver: zodResolver(DescriptionFormSchema),
+        defaultValues: {
+            description: initialData?.description || ""
+        }
     })
 
     function toggleEdit() {
@@ -43,11 +47,11 @@ export function TitleForm({ initialData, courseId }: TitleForm) {
 
     const { handleSubmit, control, formState: { isSubmitting, isValid } } = form
 
-    async function handleEditTitleCourse(params: TitleFormData) {
+    async function handleEditDescriptionCourse(params: DescriptionFormData) {
         try {
             console.log(params)
             await axios.patch(`/api/course/${courseId}`, params)
-            toast.success('Title updated')
+            toast.success('Description updated')
             toggleEdit()
             router.refresh()
         } catch (error) {
@@ -60,7 +64,7 @@ export function TitleForm({ initialData, courseId }: TitleForm) {
     return (
         <div className='mt-6 border bg-slate-100 rounded-md p-4'>
             <div className="font-medium flex items-center justify-between">
-                Course title
+                Course description
                 <Button
                     onClick={toggleEdit}
                     variant="ghost"
@@ -73,31 +77,31 @@ export function TitleForm({ initialData, courseId }: TitleForm) {
                     ) : (
                         <>
                             <Pencil className="h-4 w-4 mr-2" />
-                            Edit title
+                            Edit description
                         </>
                     )}
                 </Button>
             </div>
             {!isEditing ? (
-                <p className="text-sm mt-2">
-                    {initialData.title}
+                <p className={cn("text-sm mt-2", !initialData.description && "text-slate-500 italic")}>
+                    {initialData.description || "No description"}
                 </p>
             ) : (
                 <Form {...form}>
                     <form
-                        onSubmit={handleSubmit(handleEditTitleCourse)}
+                        onSubmit={handleSubmit(handleEditDescriptionCourse)}
                         className='space-y-4 mt-4'
                     >
 
                         <FormField
                             control={control}
-                            name="title"
+                            name="description"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input
+                                        <Textarea
                                             disabled={isSubmitting}
-                                            placeholder="e.g. 'Advanced web development'"
+                                            placeholder="e.g. 'This is course about...'"
                                             {...field}
                                         />
                                     </FormControl>
