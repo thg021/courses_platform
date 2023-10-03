@@ -14,7 +14,7 @@ import { FileUpload } from "@/components/file-upload";
 
 interface ImageFormProps {
     initialData: {
-        imageUrl: string
+        imageUrl: string | null
     }
     courseId: string;
 };
