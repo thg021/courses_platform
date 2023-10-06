@@ -19,13 +19,10 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea";
 import { Combobox } from "@/components/ui/combobox";
 
 interface CategoryFormProps {
-    initialData: {
-        categoryId: string | null
-    }
+    initialData: Course
     courseId: string
     options: { label: string; value: string; }[];
 }

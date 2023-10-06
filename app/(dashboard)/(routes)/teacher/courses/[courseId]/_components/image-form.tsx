@@ -13,9 +13,7 @@ import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 
 interface ImageFormProps {
-    initialData: {
-        imageUrl: string | null
-    }
+    initialData: Course
     courseId: string;
 };
 

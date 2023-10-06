@@ -11,14 +11,12 @@ import toast from 'react-hot-toast'
 import { Pencil, X } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
-import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { formatPrice } from '@/lib/format'
+import { Course } from '@prisma/client'
 
 interface PriceForm {
-    initialData: {
-        price: number | null
-    }
+    initialData: Course
     courseId: string
 }
 

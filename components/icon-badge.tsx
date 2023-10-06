@@ -32,8 +32,8 @@ const iconVariants = cva(
                 success: "text-emerald-700"
             },
             size: {
-                default: "h-6 w-6",
-                sm: "h-4 w-4"
+                default: "h-4 w-4",
+                sm: "h-2 w-2"
             }
         },
         defaultVariants: {

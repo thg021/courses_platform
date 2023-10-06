@@ -11,11 +11,10 @@ import { Button } from '@/components/ui/button'
 import toast from 'react-hot-toast'
 import { Pencil, X } from 'lucide-react'
 import { useState } from 'react'
+import { Course } from '@prisma/client'
 
 interface TitleForm {
-    initialData: {
-        title: string
-    }
+    initialData: Course
     courseId: string
 }
 
