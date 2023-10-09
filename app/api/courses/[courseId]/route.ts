@@ -2,8 +2,11 @@ import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs"
 import { NextResponse } from "next/server"
 
+interface UpdateCourseRequest {
+    params: { courseId: string }
+}
 
-export async function PATCH(req: Request, { params }: {  params: { courseId: string } }) {
+export async function PATCH(req: Request, { params }: UpdateCourseRequest) {
 
     try {
         const { userId } = auth()

@@ -9,6 +9,7 @@ import { ImageForm } from './_components/image-form'
 import { CategoryForm } from './_components/category-form'
 import { PriceForm } from './_components/price-form'
 import { AttachmentForm } from './_components/attachment-form'
+import { ChapterForm } from './_components/chapter-form'
 
 interface CourseIdPros {
     params: {
@@ -26,6 +27,11 @@ export default async function CourseIdPage({ params: { courseId } }: CourseIdPro
             userId
         },
         include: {
+            chapters: {
+                orderBy: {
+                    position: 'asc'
+                }
+            },
             attachments: {
                 orderBy: {
                     createdAt: "desc"
@@ -41,13 +47,14 @@ export default async function CourseIdPage({ params: { courseId } }: CourseIdPro
     })
 
     if (!course) return redirect('/')
-    const { title, description, imageUrl, price, categoryId } = course
+    const { title, description, imageUrl, price, categoryId, chapters } = course
     const requiredFields = [
         title,
         description,
         imageUrl,
         price,
-        categoryId
+        categoryId,
+        chapters.some(chapter => chapter.isPublished)
     ]
 
     const totalFields = requiredFields.length
@@ -88,7 +95,7 @@ export default async function CourseIdPage({ params: { courseId } }: CourseIdPro
                             <IconBadge icon={ListChecks} />
                             <h2 className="text-xl">Course chapters</h2>
                         </div>
-                        <div>TODO Chapters</div>
+                        <ChapterForm initialData={course} courseId={course.id} />
                     </div>
                     <div>
                         <div className="flex items-center gap-x-2">
