@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils'
 import { Textarea } from '@/components/ui/textarea'
 import { Chapter, Course } from '@prisma/client'
 import { Input } from '@/components/ui/input'
+import { ChaptersList } from './chapters-list'
 
 interface ChapterForm {
     initialData: Course & { chapters: Chapter[] }
@@ -27,7 +28,9 @@ const ChapterFormSchema = z.object({
 })
 
 type ChapterFormData = z.infer<typeof ChapterFormSchema>
-
+type PositionChapter = {
+    id: string, position: number
+}
 
 export function ChapterForm({ initialData, courseId }: ChapterForm) {
     const [isCreating, setIsCreating] = useState(false)
@@ -58,6 +61,26 @@ export function ChapterForm({ initialData, courseId }: ChapterForm) {
             console.log("Something went wrong")
             toast.error("Something went wrong!")
         }
+    }
+
+    async function handleReorder(updateData: PositionChapter[]) {
+        try {
+            setIsUpdating(true)
+            await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
+                list: updateData
+            });
+            toast.success("Chapters reordered");
+            router.refresh()
+        } catch (error) {
+            toast.error("Something went wrong")
+
+        } finally {
+            setIsUpdating(false)
+        }
+    }
+
+    function handleEdit(id: string) {
+        router.push(`/teacher/courses/${courseId}/chapters/${id}`)
     }
 
 
@@ -118,7 +141,11 @@ export function ChapterForm({ initialData, courseId }: ChapterForm) {
                     !initialData.chapters.length && "text-slate-500 italic"
                 )}>
                     {!initialData.chapters.length && "No chapter"}
-                    {/*TODO: Add a list of chapters */}
+                    <ChaptersList
+                        onEdit={handleEdit}
+                        onReorder={handleReorder}
+                        items={initialData.chapters || []}
+                    />
                 </div>
             )}
             {!isCreating && (
